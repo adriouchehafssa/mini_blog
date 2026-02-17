@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Features;
@@ -68,6 +69,31 @@ test('users can logout', function () {
 
     $this->assertGuest();
     $response->assertRedirect(route('home'));
+});
+
+test('admins can authenticate using the login screen', function () {
+    $admin = Admin::query()->create([
+        'name' => 'Admin',
+        'email' => 'admin@example.com',
+        'password' => 'password',
+    ]);
+
+    $response = $this->post(route('login.store'), [
+        'email' => $admin->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated('admin');
+    $this->assertGuest('web');
+    $response->assertRedirect(route('admin.dashboard', absolute: false));
+});
+
+test('admin dashboard requires admin guard', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user, 'web')->get(route('admin.dashboard'));
+
+    $response->assertRedirect(route('login', absolute: false));
 });
 
 test('users are rate limited', function () {

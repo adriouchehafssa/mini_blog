@@ -30,4 +30,6 @@ declare module 'vue' {
         $page: Page;
         $headManager: ReturnType<typeof createHeadManager>;
     }
+
+    
 }

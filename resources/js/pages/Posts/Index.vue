@@ -5,7 +5,7 @@ import { type BreadcrumbItem } from '@/types';
 import { dashboard } from '@/routes';
 import { Button } from '@/components/ui/button';
 import { Plus, Edit, Trash2, Eye } from 'lucide-vue-next';
-import { ModalLink } from '@inertiaui/modal-vue'; 
+import { ModalLink } from '@inertiaui/modal-vue'; // Ajoutez ceci
 import {
     Table,
     TableBody,
@@ -123,13 +123,13 @@ const formatDate = (date: string) => {
                                         <Edit class="h-4 w-4" />
                                     </ModalLink>
                                     
-                                    <ModalLink
+                                    <Button
                                         variant="ghost"
                                         size="icon"
                                         @click="deletePost(post.id)"
                                     >
                                         <Trash2 class="h-4 w-4 text-red-500" />
-                                    </ModalLink>
+                                    </Button>
                                 </div>
                             </TableCell>
                         </TableRow>
